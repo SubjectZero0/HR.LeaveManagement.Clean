@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MappingProfiles\" />
+    <Folder Include="Features\LeaveType\Commands\" />
   </ItemGroup>
 
 </Project>
