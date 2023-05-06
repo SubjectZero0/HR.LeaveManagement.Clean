@@ -12,7 +12,7 @@ namespace HR.LeaveManagement.Application.Contracts.Persistence
 
         Task<List<T>> GetAllAsync();
 
-        Task<T> AddAsync(T entity);
+        Task<bool> AddAsync(T entity);
 
         Task UpdateAsync(T entity);
 
