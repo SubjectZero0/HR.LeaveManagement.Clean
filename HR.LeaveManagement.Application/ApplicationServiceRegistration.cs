@@ -1,5 +1,6 @@
 ﻿using HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType;
 using HR.LeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveType;
+using HR.LeaveManagement.Application.Services.Validators;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,7 @@ namespace HR.LeaveManagement.Application
                 options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             });
 
-            services.AddScoped<IUpdateLeaveTypeValidatorService, UpdateLeaveTypeValidatorService>();
-            services.AddScoped<ICreateLeaveTypeValidatorService, CreateLeaveTypeValidatorService>();
+            services.AddScoped(typeof(IValidatorService<>), typeof(ValidatorService<>));
 
             return services;
         }
