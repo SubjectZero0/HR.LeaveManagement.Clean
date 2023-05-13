@@ -9,24 +9,26 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeave
     {
         private readonly IMapper _mapper;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
+        private readonly ICreateLeaveTypeValidatorService _createLeaveTypeValidatorService;
 
         public CreateLeaveTypeCommandHandler(IMapper mapper,
-                                             ILeaveTypeRepository leaveTypeRepository)
+                                             ILeaveTypeRepository leaveTypeRepository,
+                                             ICreateLeaveTypeValidatorService createLeaveTypeValidatorService)
         {
             this._mapper = mapper;
             this._leaveTypeRepository = leaveTypeRepository;
+            this._createLeaveTypeValidatorService = createLeaveTypeValidatorService;
         }
 
         public async Task<bool> Handle(CreateLeaveTypeCommand request,
                                  CancellationToken cancellationToken)
         {
             // validate data
-            var validatator = new CreateLeaveTypeValidator(_leaveTypeRepository);
-            var validationResult = await validatator.ValidateAsync(request, cancellationToken);
+            var validationResult = await _createLeaveTypeValidatorService.ValidateCreateLeaveTypeAsync(request);
 
             if (validationResult.Errors.Any())
             {
-                throw new BadRequestException("Invalid LeaveType", validationResult);
+                throw new BadRequestException("Invalid Leave Type", validationResult);
             }
 
             //map data
@@ -36,12 +38,12 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeave
             //create entity
             var isCreated = await _leaveTypeRepository.AddAsync(leaveTypeDB);
 
-            if (!isCreated)
+            if (isCreated)
             {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 }
