@@ -16,6 +16,6 @@ namespace HR.LeaveManagement.Application.Contracts.Persistence
 
         Task<bool> UpdateAsync(T entity);
 
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAsync(T entity);
     }
 }
