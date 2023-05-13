@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HR.LeaveManagement.Application.Contracts.Persistence;
-using HR.LeaveManagement.Application.Exceptions;
+using HR.LeaveManagement.Application.Services.Validators;
 using MediatR;
 
 namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType
@@ -9,30 +9,26 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeave
     {
         private readonly IMapper _mapper;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
-        private readonly ICreateLeaveTypeValidatorService _createLeaveTypeValidatorService;
+        private readonly IValidatorService<CreateLeaveTypeCommand> _validatorService;
 
         public CreateLeaveTypeCommandHandler(IMapper mapper,
                                              ILeaveTypeRepository leaveTypeRepository,
-                                             ICreateLeaveTypeValidatorService createLeaveTypeValidatorService)
+                                             IValidatorService<CreateLeaveTypeCommand> validatorService)
         {
             this._mapper = mapper;
             this._leaveTypeRepository = leaveTypeRepository;
-            this._createLeaveTypeValidatorService = createLeaveTypeValidatorService;
+            this._validatorService = validatorService;
         }
 
-        public async Task<bool> Handle(CreateLeaveTypeCommand request,
+        public async Task<bool> Handle(CreateLeaveTypeCommand command,
                                  CancellationToken cancellationToken)
         {
             // validate data
-            var validationResult = await _createLeaveTypeValidatorService.ValidateCreateLeaveTypeAsync(request);
-
-            if (validationResult.Errors.Any())
-            {
-                throw new BadRequestException("Invalid Leave Type", validationResult);
-            }
+            var validator = new CreateLeaveTypeValidator(_leaveTypeRepository);
+            await _validatorService.ValidateCommandAsync(command, validator, cancellationToken);
 
             //map data
-            var leaveTypeDB = _mapper.Map<Domain.LeaveType>(request);
+            var leaveTypeDB = _mapper.Map<Domain.LeaveType>(command);
             leaveTypeDB.DateCreated = DateTime.UtcNow;
 
             //create entity
