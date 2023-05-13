@@ -1,4 +1,5 @@
 ﻿using HR.LeaveManagement.Application.Contracts.Persistence;
+using HR.LeaveManagement.Application.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,14 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeave
 
         public async Task<bool> Handle(DeleteLeaveTypeCommand request, CancellationToken cancellationToken)
         {
-            var isDeleted = await _leaveTypeRepository.DeleteAsync(request.Id);
+            var leaveTypeDb = await _leaveTypeRepository.GetByIdAsync(request.Id);
+
+            if (leaveTypeDb is null)
+            {
+                throw new NotFoundException("Could not find leave type");
+            }
+
+            var isDeleted = await _leaveTypeRepository.DeleteAsync(leaveTypeDb);
 
             if (isDeleted)
             {
