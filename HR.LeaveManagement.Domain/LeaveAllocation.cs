@@ -14,6 +14,8 @@ namespace HR.LeaveManagement.Domain
         [Range(0, 100)]
         public int NumberOfDays { get; set; }
 
+        public string EmployeeId { get; set; } = string.Empty;
+
         [Range(2000, 2050)]
         public int Year { get; set; }
     }
