@@ -19,7 +19,7 @@ namespace HR.LeaveManagement.Persistence
             // Add DbContext
             services.AddDbContext<HRDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString(nameof(HRDbConnectionString)));
+                options.UseSqlServer(configuration.GetConnectionString("HRDbConnectionString"));
             });
 
             // Add repositories
