@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HR.LeaveManagement.Application.Contracts.Persistence;
+using HR.LeaveManagement.Application.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,12 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Queries.GetLeaveType
                                                       CancellationToken cancellationToken)
         {
             var details = await _leaveTypeRepository.GetByIdAsync(request.Id);
+
+            if (details is null)
+            {
+                throw new NotFoundException("Leave type not found");
+            }
+
             var detailsDTO = _mapper.Map<LeaveTypeDetailsDTO>(details);
             return detailsDTO;
         }
