@@ -1,3 +1,4 @@
+using HR.LeaveManagement.API.Services;
 using HR.LeaveManagement.Application;
 using HR.LeaveManagement.Infrastructure;
 using HR.LeaveManagement.Persistence;
@@ -14,6 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddPersistenceServices(builder.Configuration);
+
+// Add API Services
+builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
 
 // Add CORS
 builder.Services.AddCors(options =>
