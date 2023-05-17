@@ -11,7 +11,7 @@ namespace HR.LeaveManagement.Application.Exceptions
     {
         public List<string>? ValidationErrors { get; set; }
 
-        public BadRequestException(string name) : base(name)
+        public BadRequestException(string message) : base(message)
         {
         }
 
