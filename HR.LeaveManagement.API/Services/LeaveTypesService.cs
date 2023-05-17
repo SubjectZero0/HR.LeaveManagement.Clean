@@ -7,6 +7,8 @@ namespace HR.LeaveManagement.API.Services
     public interface ILeaveTypesService
     {
         Task<List<LeaveTypeDTO>> GetAllLeaveTypesAsync();
+
+        Task<LeaveTypeDetailsDTO> GetLeaveTypeByIdAsync(int id);
     }
 
     public class LeaveTypesService : ILeaveTypesService
