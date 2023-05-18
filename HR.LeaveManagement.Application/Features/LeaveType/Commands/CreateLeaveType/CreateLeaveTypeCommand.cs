@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType
 {
-    public class CreateLeaveTypeCommand : IRequest<bool>
+    public class CreateLeaveTypeCommand : IRequest<Domain.LeaveType>
     {
         public string Name { get; set; } = string.Empty;
         public int DefaultDays { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveType
 {
-    public class UpdateLeaveTypeCommand : IRequest<bool>
+    public class UpdateLeaveTypeCommand : IRequest<Domain.LeaveType>
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

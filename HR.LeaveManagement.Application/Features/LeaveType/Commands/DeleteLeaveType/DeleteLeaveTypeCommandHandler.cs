@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeaveType
 {
-    public class DeleteLeaveTypeCommandHandler : IRequestHandler<DeleteLeaveTypeCommand, bool>
+    public class DeleteLeaveTypeCommandHandler : IRequestHandler<DeleteLeaveTypeCommand, Unit>
     {
         private readonly ILeaveTypeRepository _leaveTypeRepository;
 
@@ -18,7 +18,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeave
             this._leaveTypeRepository = leaveTypeRepository;
         }
 
-        public async Task<bool> Handle(DeleteLeaveTypeCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteLeaveTypeCommand request, CancellationToken cancellationToken)
         {
             var leaveTypeDb = await _leaveTypeRepository.GetByIdAsync(request.Id);
 
@@ -29,11 +29,12 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeave
 
             var isDeleted = await _leaveTypeRepository.DeleteAsync(leaveTypeDb);
 
-            if (isDeleted)
+            if (!isDeleted)
             {
-                return true;
+                throw new BadTransactionEcxeption("Transaction failed");
             }
-            return false;
+
+            return Unit.Value;
         }
     }
 }
