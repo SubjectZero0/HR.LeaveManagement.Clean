@@ -51,6 +51,12 @@ namespace HR.LeaveManagement.API.Middleware
                     statusCode = HttpStatusCode.NotFound;
                     break;
 
+                case BadTransactionEcxeption badTransactionEcxeption:
+                    errorDetails.Message = ex.Message;
+                    errorDetails.Type = "Bad Transaction";
+                    statusCode = HttpStatusCode.InternalServerError;
+                    break;
+
                 default:
                     break;
             }
