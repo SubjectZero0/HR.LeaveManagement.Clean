@@ -1,3 +1,4 @@
+using HR.LeaveManagement.API.Middleware;
 using HR.LeaveManagement.API.Services;
 using HR.LeaveManagement.Application;
 using HR.LeaveManagement.Infrastructure;
@@ -39,6 +40,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// use Middleware
+app.UseMiddleware<ExceptionMiddleware>();
+
+// use cors
 app.UseCors("AllowAll");
 
 app.UseAuthorization();
