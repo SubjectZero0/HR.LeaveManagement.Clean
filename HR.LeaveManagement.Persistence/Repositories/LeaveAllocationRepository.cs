@@ -1,4 +1,5 @@
-﻿using HR.LeaveManagement.Application.Contracts.Persistence;
+﻿using HR.LeaveManagement.Application.Contracts.Logger;
+using HR.LeaveManagement.Application.Contracts.Persistence;
 using HR.LeaveManagement.Domain;
 using HR.LeaveManagement.Persistence.DatabaseContexts;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,8 @@ namespace HR.LeaveManagement.Persistence.Repositories
 {
     public class LeaveAllocationRepository : GenericRepository<LeaveAllocation>, ILeaveAllocationsRepository
     {
-        public LeaveAllocationRepository(HRDbContext context) : base(context)
+        public LeaveAllocationRepository(HRDbContext context,
+                                         IAppLogger<GenericRepository<LeaveAllocation>> appLogger) : base(context, appLogger)
         {
         }
 

@@ -9,6 +9,7 @@ namespace HR.LeaveManagement.Application.Exceptions
     public class ErrorDetails
     {
         public string Message { get; set; }
+        public List<string> Details { get; set; } = new List<string>();
         public string Type { get; set; }
     }
 }

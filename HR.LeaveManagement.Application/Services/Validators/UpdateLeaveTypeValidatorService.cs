@@ -1,4 +1,5 @@
-﻿using HR.LeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveType;
+﻿using HR.LeaveManagement.Application.Contracts.Logger;
+using HR.LeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveType;
 using HR.LeaveManagement.Domain;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,8 @@ namespace HR.LeaveManagement.Application.Services.Validators
 
     public class UpdateLeaveTypeValidatorService : GenericValidatorService<UpdateLeaveTypeCommand, LeaveType>, IUpdateLeaveTypeValidatorService
     {
+        public UpdateLeaveTypeValidatorService(IAppLogger<GenericValidatorService<UpdateLeaveTypeCommand, LeaveType>> appLogger) : base(appLogger)
+        {
+        }
     }
 }
