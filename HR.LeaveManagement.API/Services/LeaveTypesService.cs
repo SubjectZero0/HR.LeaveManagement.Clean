@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HR.LeaveManagement.Application.Contracts.Logger;
 using HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType;
 using HR.LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeaveType;
 using HR.LeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveType;
@@ -16,7 +17,7 @@ namespace HR.LeaveManagement.API.Services
 
         Task<LeaveTypeDTO> CreateLeaveTypeAsync(CreateLeaveTypeCommand command);
 
-        Task<LeaveTypeDTO> UpdateLeaveTypeAsync(UpdateLeaveTypeCommand command);
+        Task<LeaveTypeDTO> UpdateLeaveTypeAsync(int id, UpdateLeaveTypeDTO updateLeaveTypeDTO);
 
         Task DeleteLeaveTypeAsync(DeleteLeaveTypeCommand command);
     }
@@ -25,22 +26,30 @@ namespace HR.LeaveManagement.API.Services
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IAppLogger<LeaveTypesService> _appLogger;
 
-        public LeaveTypesService(IMediator mediator, IMapper mapper)
+        public LeaveTypesService(IMediator mediator,
+                                 IMapper mapper,
+                                 IAppLogger<LeaveTypesService> appLogger)
         {
             this._mediator = mediator;
             this._mapper = mapper;
+            this._appLogger = appLogger;
         }
 
         public async Task<List<LeaveTypeDTO>> GetAllLeaveTypesAsync()
         {
             var leaveTypes = await _mediator.Send(new GetLeaveTypesQuery());
+
+            _appLogger.LogInformation("{0} method named {1} was executed", nameof(LeaveTypesService), nameof(GetAllLeaveTypesAsync));
             return leaveTypes;
         }
 
         public async Task<LeaveTypeDetailsDTO> GetLeaveTypeByIdAsync(int id)
         {
             var leaveType = await _mediator.Send(new GetLeaveTypeDetailsByIdQuery(id));
+
+            _appLogger.LogInformation("{0} method named {1} was executed", nameof(LeaveTypesService), nameof(GetLeaveTypeByIdAsync));
             return leaveType;
         }
 
@@ -49,20 +58,30 @@ namespace HR.LeaveManagement.API.Services
             var leaveType = await _mediator.Send(command);
             var leaveTypeDto = _mapper.Map<LeaveTypeDTO>(leaveType);
 
+            _appLogger.LogInformation("{0} method named {1} was executed", nameof(LeaveTypesService), nameof(CreateLeaveTypeAsync));
             return leaveTypeDto;
         }
 
-        public async Task<LeaveTypeDTO> UpdateLeaveTypeAsync(UpdateLeaveTypeCommand command)
+        public async Task<LeaveTypeDTO> UpdateLeaveTypeAsync(int id, UpdateLeaveTypeDTO updateLeaveTypeDTO)
         {
+            var command = new UpdateLeaveTypeCommand()
+            {
+                Id = id,
+                Name = updateLeaveTypeDTO.Name,
+                DefaultDays = updateLeaveTypeDTO.DefaultDays,
+            };
+
             var leaveType = await _mediator.Send(command);
             var leaveTypeDto = _mapper.Map<LeaveTypeDTO>(leaveType);
 
+            _appLogger.LogInformation("{0} method named {1} was executed", nameof(LeaveTypesService), nameof(UpdateLeaveTypeAsync));
             return leaveTypeDto;
         }
 
         public async Task DeleteLeaveTypeAsync(DeleteLeaveTypeCommand command)
         {
             await _mediator.Send(command);
+            _appLogger.LogInformation("{0} method named {1} was executed", nameof(LeaveTypesService), nameof(DeleteLeaveTypeAsync));
         }
     }
 }
