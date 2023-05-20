@@ -40,13 +40,22 @@ namespace HR.LeaveManagement.API.Middleware
             switch (ex)
             {
                 case BadRequestException badRequestException:
+
                     errorDetails.Message = ex.Message;
+
+                    if (badRequestException.ValidationErrors is not null && badRequestException.ValidationErrors.Any())
+                    {
+                        foreach (var validationError in badRequestException.ValidationErrors)
+                        {
+                            errorDetails.Details.Add(validationError);
+                        }
+                    }
                     errorDetails.Type = "Bad Request";
                     statusCode = HttpStatusCode.BadRequest;
                     break;
 
                 case NotFoundException notFoundException:
-                    errorDetails.Message = ex.Message;
+                    errorDetails.Message = notFoundException.Message;
                     errorDetails.Type = "Not Found";
                     statusCode = HttpStatusCode.NotFound;
                     break;
