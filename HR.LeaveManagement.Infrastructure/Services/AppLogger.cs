@@ -12,6 +12,11 @@ namespace HR.LeaveManagement.Infrastructure.Services
             _logger = loggerFactory.CreateLogger<T>();
         }
 
+        public void LogCritical(string message, params object[] args)
+        {
+            _logger.LogCritical(message, args);
+        }
+
         public void LogInformation(string message, params object[] args)
         {
             _logger.LogInformation(message, args);
