@@ -14,6 +14,6 @@ namespace HR.LeaveManagement.Application.Contracts.Persistence
 
         public Task<bool> AddAllocations(List<LeaveAllocation> allocations);
 
-        public Task<LeaveAllocation?> GetEmployeeAllocations(string employeeId, int leaveTypeId);
+        public Task<LeaveAllocation?> GetEmployeeAllocation(string employeeId, int leaveTypeId);
     }
 }
