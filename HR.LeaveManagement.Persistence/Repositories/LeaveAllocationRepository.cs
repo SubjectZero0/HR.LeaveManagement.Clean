@@ -1,5 +1,6 @@
 ﻿using HR.LeaveManagement.Application.Contracts.Logger;
 using HR.LeaveManagement.Application.Contracts.Persistence;
+using HR.LeaveManagement.Application.Exceptions;
 using HR.LeaveManagement.Domain;
 using HR.LeaveManagement.Persistence.DatabaseContexts;
 using Microsoft.EntityFrameworkCore;
@@ -59,11 +60,17 @@ namespace HR.LeaveManagement.Persistence.Repositories
             return allocations;
         }
 
-        public async Task<LeaveAllocation?> GetLeaveAllocationWithDetails(int id)
+        public async Task<LeaveAllocation> GetLeaveAllocationWithDetails(int id)
         {
             var allocation = await _context.LeaveAllocations
                 .Include(q => q.LeaveType)
                 .FirstOrDefaultAsync(q => q.Id == id);
+
+            if (allocation is null)
+            {
+                _appLogger.LogWarning("Leave Allocation with ID: {0} was not found", id);
+                throw new NotFoundException("Allocation was not found");
+            }
 
             return allocation;
         }

@@ -20,7 +20,6 @@ namespace HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetAll
                                                                CancellationToken cancellationToken)
         {
             _appLogger.LogInformation("Attempting to execute {0}", nameof(GetAllLeaveAllocationsQueryHandler));
-
             var leaveAllocation = await _leaveAllocationsRepository.GetLeaveAllocationsWithDetails();
 
             return leaveAllocation;

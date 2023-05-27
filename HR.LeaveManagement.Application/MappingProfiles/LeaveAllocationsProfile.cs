@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
+using HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.CreateLeaveAllocation;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetAllLeaveAllocations;
 using HR.LeaveManagement.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HR.LeaveManagement.Application.MappingProfiles
 {
@@ -14,6 +10,10 @@ namespace HR.LeaveManagement.Application.MappingProfiles
         public LeaveAllocationsProfile()
         {
             CreateMap<LeaveAllocation, LeaveAllocationDTO>().ReverseMap();
+            CreateMap<LeaveAllocation, CreateLeaveAllocationDTO>().ReverseMap();
+            CreateMap<LeaveAllocation, CreateLeaveAllocationCommand>().ReverseMap();
+            CreateMap<LeaveAllocationDTO, CreateLeaveAllocationDTO>().ReverseMap();
+            CreateMap<LeaveAllocationDTO, CreateLeaveAllocationCommand>().ReverseMap();
         }
     }
 }

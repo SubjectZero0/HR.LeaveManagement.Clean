@@ -24,7 +24,6 @@ namespace HR.LeaveManagement.Application.Services.Validators
                                                AbstractValidator<TCommand> validator,
                                                CancellationToken cancellationToken)
         {
-            
             var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
             if (validationResult.Errors.Any())

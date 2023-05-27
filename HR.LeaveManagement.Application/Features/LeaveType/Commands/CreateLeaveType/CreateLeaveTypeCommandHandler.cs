@@ -39,7 +39,6 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeave
 
             //map data
             var leaveTypeDB = _mapper.Map<Domain.LeaveType>(command);
-            leaveTypeDB.DateCreated = DateTime.UtcNow;
 
             //create entity
             var isCreated = await _leaveTypeRepository.AddAsync(leaveTypeDB);

@@ -19,6 +19,7 @@ builder.Services.AddPersistenceServices(builder.Configuration);
 
 // Add API Services
 builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
+builder.Services.AddScoped<ILeaveAllocationService, LeaveAllocationService>();
 
 // Add CORS
 builder.Services.AddCors(options =>

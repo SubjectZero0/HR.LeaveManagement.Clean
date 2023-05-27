@@ -10,9 +10,9 @@ namespace HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetAll
 {
     public class LeaveAllocationDTO
     {
-        public LeaveTypeDTO? LeaveType { get; set; }
+        public int Id { get; set; }
 
-        public int LeaveTypeId { get; set; }
+        public LeaveTypeDTO? LeaveType { get; set; }
 
         public int NumberOfDays { get; set; }
 
