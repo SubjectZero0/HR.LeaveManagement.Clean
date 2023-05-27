@@ -19,6 +19,7 @@ namespace HR.LeaveManagement.Application
             services.AddScoped<ICreateLeaveTypeValidatorService, CreateLeaveTypeValidatorService>();
             services.AddScoped<IUpdateLeaveTypeValidatorService, UpdateLeaveTypeValidatorService>();
             services.AddScoped<ICreateLeaveAllocationValidatorService, CreateLeaveAllocationValidatorService>();
+            services.AddScoped<IUpdateLeaveAllocationValidatorService, UpdateLeaveAllocationValidatorService>();
 
             return services;
         }
