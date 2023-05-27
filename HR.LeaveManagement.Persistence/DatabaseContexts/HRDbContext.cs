@@ -23,11 +23,11 @@ namespace HR.LeaveManagement.Persistence.DatabaseContexts
             {
                 if (entry.State is EntityState.Added)
                 {
-                    entry.Entity.DateCreated = DateTime.UtcNow;
+                    entry.Entity.DateCreated = DateTime.Now;
                 }
                 else
                 {
-                    entry.Entity.DateModified = DateTime.UtcNow;
+                    entry.Entity.DateModified = DateTime.Now;
                 }
             }
             return await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

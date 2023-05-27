@@ -2,6 +2,7 @@
 using HR.LeaveManagement.API.Services;
 using HR.LeaveManagement.Application.Contracts.Logger;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.CreateLeaveAllocation;
+using HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.UpdateLeaveAllocation;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -58,11 +59,16 @@ namespace HR.LeaveManagement.API.Controllers
             return Created(nameof(GetById), leaveTypeDTO);
         }
 
-        // PUT api/<LeaveAllocationsController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        //PUT api/<LeaveAllocationsController>/5
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateLeaveAllocationDTO updateLeaveAllocationDTO)
+        {
+            _appLogger.LogInformation("Attempting to update Allocation with ID: {0}", id);
+            var leaveAllocationDTO = await _leaveAllocationService.UpdateLeaveAllocationAsync(id, updateLeaveAllocationDTO);
+
+            _appLogger.LogInformation("Returning OK for updated Leave Allocation with ID: {0}", id);
+            return Ok(leaveAllocationDTO);
+        }
 
         //// DELETE api/<LeaveAllocationsController>/5
         //[HttpDelete("{id}")]

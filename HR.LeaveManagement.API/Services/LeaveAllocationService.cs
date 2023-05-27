@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HR.LeaveManagement.Application.Contracts.Logger;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.CreateLeaveAllocation;
+using HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.UpdateLeaveAllocation;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetAllLeaveAllocations;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetByIdLeaveAllocation;
 using MediatR;
@@ -15,7 +16,7 @@ namespace HR.LeaveManagement.API.Services
 
         Task<LeaveAllocationDTO> CreateLeaveAllocationAsync(CreateLeaveAllocationDTO createLeaveAllocationDTO);
 
-        //Task<LeaveTypeDTO> UpdateLeaveTypeAsync(int id, UpdateLeaveTypeDTO updateLeaveTypeDTO);
+        Task<LeaveAllocationDTO> UpdateLeaveAllocationAsync(int id, UpdateLeaveAllocationDTO updateLeaveAllocationDTO);
 
         //Task DeleteLeaveTypeAsync(DeleteLeaveTypeCommand command);
     }
@@ -66,6 +67,24 @@ namespace HR.LeaveManagement.API.Services
             var leaveAllocationDTO = _mapper.Map<LeaveAllocationDTO>(leaveAllocation);
 
             _appLogger.LogInformation("{0} method named {1} was executed", nameof(LeaveAllocationService), nameof(GetLeaveAllocationByIdAsync));
+            return leaveAllocationDTO;
+        }
+
+        public async Task<LeaveAllocationDTO> UpdateLeaveAllocationAsync(int id, UpdateLeaveAllocationDTO updateLeaveAllocationDTO)
+        {
+            var command = new UpdateLeaveAllocationCommand()
+            {
+                Id = id,
+                EmployeeId = "11111", //changes after Identity,
+                LeaveTypeId = updateLeaveAllocationDTO.LeaveTypeId,
+                NumberOfDays = updateLeaveAllocationDTO.NumberOfDays,
+                Year = updateLeaveAllocationDTO.Year,
+            };
+
+            var leaveAllocation = await _mediatr.Send(command);
+            var leaveAllocationDTO = _mapper.Map<LeaveAllocationDTO>(leaveAllocation);
+
+            _appLogger.LogInformation("{0} method named {1} was executed", nameof(LeaveAllocationService), nameof(UpdateLeaveAllocationAsync));
             return leaveAllocationDTO;
         }
     }
