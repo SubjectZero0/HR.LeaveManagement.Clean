@@ -4,6 +4,7 @@ using HR.LeaveManagement.Application.Contracts.Logger;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.CreateLeaveAllocation;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.UpdateLeaveAllocation;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -70,10 +71,15 @@ namespace HR.LeaveManagement.API.Controllers
             return Ok(leaveAllocationDTO);
         }
 
-        //// DELETE api/<LeaveAllocationsController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE api/<LeaveAllocationsController>/5
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            _appLogger.LogInformation("Attempting to delete Leave Allocation with ID: {0}", id);
+            await _leaveAllocationService.DeleteLeaveAllocationAsync(id);
+
+            _appLogger.LogInformation("Returning 204 for Leave Allocation with ID: {0}", id);
+            return NoContent();
+        }
     }
 }

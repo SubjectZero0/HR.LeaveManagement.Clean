@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HR.LeaveManagement.Application.Contracts.Logger;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.CreateLeaveAllocation;
+using HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.DeleteLeaveAllocation;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Commands.UpdateLeaveAllocation;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetAllLeaveAllocations;
 using HR.LeaveManagement.Application.Features.LeaveAllocation.Queries.GetByIdLeaveAllocation;
@@ -18,7 +19,7 @@ namespace HR.LeaveManagement.API.Services
 
         Task<LeaveAllocationDTO> UpdateLeaveAllocationAsync(int id, UpdateLeaveAllocationDTO updateLeaveAllocationDTO);
 
-        //Task DeleteLeaveTypeAsync(DeleteLeaveTypeCommand command);
+        Task DeleteLeaveAllocationAsync(int id);
     }
 
     public class LeaveAllocationService : ILeaveAllocationService
@@ -50,6 +51,14 @@ namespace HR.LeaveManagement.API.Services
             var leaveAllocationDTO = _mapper.Map<LeaveAllocationDTO>(leaveAllocation);
 
             return leaveAllocationDTO;
+        }
+
+        public async Task DeleteLeaveAllocationAsync(int id)
+        {
+            var command = new DeleteLeaveAllocationCommand(id);
+
+            await _mediatr.Send(command);
+            _appLogger.LogInformation("{0} method named {1} was executed", nameof(LeaveAllocationService), nameof(DeleteLeaveAllocationAsync));
         }
 
         public async Task<List<LeaveAllocationDTO>> GetAllLeaveAllocationsAsync()
